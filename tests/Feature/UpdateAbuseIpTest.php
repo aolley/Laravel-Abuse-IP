@@ -40,23 +40,23 @@ class UpdateAbuseIpTest extends TestCase
         // Assert the cache contains the correct IPS
         $cachedIps = Cache::get('abuse_ips');
         $this->assertNotEmpty($cachedIps);
-        $this->assertContains('1.0.136.77', $cachedIps);
-        $this->assertContains('1.0.158.159', $cachedIps);
-        $this->assertContains('1.1.109.151', $cachedIps);
-        $this->assertContains('1.2.3.4', $cachedIps);
-        $this->assertContains('5.6.7.8', $cachedIps);
-        $this->assertNotContains('# Some Blocklist', $cachedIps);
+        $this->assertArrayHasKey('1.0.136.77', $cachedIps);
+        $this->assertArrayHasKey('1.0.158.159', $cachedIps);
+        $this->assertArrayHasKey('1.1.109.151', $cachedIps);
+        $this->assertArrayHasKey('1.2.3.4', $cachedIps);
+        $this->assertArrayHasKey('5.6.7.8', $cachedIps);
+        $this->assertArrayNotHasKey('# Some Blocklist', $cachedIps);
 
         // Check that ip.json file is updated
         $ipjsonPath = config('abuseip.storage.path') ;
         $this->assertFileExists($ipjsonPath);
         $ipsfromFile = json_decode(file_get_contents($ipjsonPath), true);
         $this->assertNotEmpty($ipsfromFile);
-        $this->assertContains('1.0.136.77', $ipsfromFile);
-        $this->assertContains('1.0.158.159', $ipsfromFile);
-        $this->assertContains('1.1.109.151', $ipsfromFile);
-        $this->assertContains('1.2.3.4', $ipsfromFile);
-        $this->assertContains('5.6.7.8', $ipsfromFile);
-        $this->assertNotContains('# Some Blocklist', $ipsfromFile);
+        $this->assertArrayHasKey('1.0.136.77', $ipsfromFile);
+        $this->assertArrayHasKey('1.0.158.159', $ipsfromFile);
+        $this->assertArrayHasKey('1.1.109.151', $ipsfromFile);
+        $this->assertArrayHasKey('1.2.3.4', $ipsfromFile);
+        $this->assertArrayHasKey('5.6.7.8', $ipsfromFile);
+        $this->assertArrayNotHasKey('# Some Blocklist', $ipsfromFile);
     }
 }
